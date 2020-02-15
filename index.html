@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      type="text/javascript"
+      src="http://code.jquery.com/jquery-1.7.2.min.js"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"
+      type="text/javascript"
+    ></script>
+    <link rel="stylesheet" href="./styles.css" />
+    <title>MQTT Server</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h3>HC-SR04 MQTT Server</h3>
+      </header>
+      <div class="content">
+        <input
+          type="text"
+          value="MQTTReceiveDistance"
+          placeholder="Topic for subscribe"
+        />
+        <button id="button-subscribe">Connect</button>
+      </div>
+      <div class="log-content">
+        <h4>Logs Subscribe</h4>
+        <p class="log-data"></p>
+      </div>
+    </div>
+  </body>
+  <script>
+    function onMessageArrived(message) {
+      // onsole.log("Distance:" + message.payloadString);
+      $(".log-data").html(
+        "Distance detected: " + message.payloadString + " cm"
+      );
+    }
+
+    function onConnect() {
+      console.log("onConnect");
+      client.subscribe("MQTTReceiveDistance");
+    }
+
+    function onConnectionLost(responseObject) {
+      if (responseObject.errorCode !== 0) {
+        console.log("onConnectionLost:" + responseObject.errorMessage);
+      }
+    }
+
+    $("#button-subscribe").click(function() {
+      client = new Paho.MQTT.Client("mqtt.eclipse.org", 443, "client-1");
+
+      client.onConnectionLost = onConnectionLost;
+      client.onMessageArrived = onMessageArrived;
+
+      client.connect({ onSuccess: onConnect });
+      return;
+    });
+  </script>
+</html>

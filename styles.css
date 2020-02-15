@@ -1,0 +1,108 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700,700i,900,900i&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+input,
+button {
+  outline: 0;
+  border: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  padding: 0 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color: #1169b1;
+  font-family: "Roboto", Arial, sans-serif;
+  text-rendering: optimizeLegibility !important;
+  -webkit-font-smoothing: antialiased !important;
+}
+
+div.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  height: 100%;
+  width: 100%;
+  max-width: 700px;
+}
+
+header {
+  flex-direction: row;
+  padding: 40px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+h3 {
+  letter-spacing: 1px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+div.content {
+  height: 44px;
+  background-color: #fff;
+  border-radius: 4px;
+  width: 100%;
+  margin: 0 20px;
+  display: flex;
+}
+
+div.content input {
+  color: #333;
+  font-size: 12px;
+  height: 100%;
+  background-color: #fff;
+  padding: 10px 20px;
+  border-radius: 4px 0 0 4px;
+  flex: 1;
+}
+
+div.content button {
+  color: #fff;
+  font-weight: bold;
+  height: 100%;
+  background-color: #e86978;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  border-radius: 0 4px 4px 0;
+  width: 20%;
+}
+
+div.content button:hover {
+  background-color: #d24c5a;
+}
+
+div.log-content {
+  margin: 20px 0;
+  width: 100%;
+}
+
+div.log-content h4 {
+  text-align: center;
+  letter-spacing: 1px;
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+div.log-content p {
+  font-size: 16px;
+  color: #fff;
+  margin-top: 10px;
+}
