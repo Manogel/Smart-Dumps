@@ -9,6 +9,8 @@ long distancia;
 
 #define ID_MQTT  "HomeAut"
 
+int lastCollectedData = 0;
+
 int RED = D0;
 int GREEN = D4;
 int BLUE = D3;
@@ -106,14 +108,39 @@ void VerificaConexoesWiFIEMQTT(void)
      reconectWiFi(); //se não há conexão com o WiFI, a conexão é refeita
 }
 
+void VerifyCollectedData(int distance)
+{
+  Serial.print("Distancia recebida ");
+  Serial.println(distance);
+
+  Serial.print("Distancia armazenada ");
+  Serial.println(lastCollectedData);
+
+  if( distance > lastCollectedData + 1 ){
+    Serial.println("- Distancia enviada ao broker!");
+    MQTT.publish(TOPICO_PUBLISH, String(distancia).c_str());
+    Serial.println("- Novo dado armazenado");
+    lastCollectedData = distance;
+  }
+
+  if( distance < lastCollectedData - 1){
+    Serial.println("- Distancia enviada ao broker!");
+    MQTT.publish(TOPICO_PUBLISH, String(distancia).c_str());
+    Serial.println("- Novo dado armazenado");
+    lastCollectedData = distance;
+  }
+  
+}
+
+
 void EnviaEstadoOutputMQTT(void)
 {
 
   distancia = ultrasonic.Ranging(CM);         
   Serial.print(distancia);
   Serial.println("cm");
-  
-  MQTT.publish(TOPICO_PUBLISH, String(distancia).c_str());
+
+  VerifyCollectedData(distancia);
   
   if (distancia <= 10){
     analogWrite(RED, 255);
@@ -128,7 +155,7 @@ void EnviaEstadoOutputMQTT(void)
     analogWrite(GREEN, 255);
     analogWrite(BLUE, 0);
   }
-  Serial.println("- Distancia enviada ao broker!");
+  Serial.println(distancia);
   delay(1000);
   
 
